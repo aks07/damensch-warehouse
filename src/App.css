@@ -23,6 +23,15 @@ input {
   border: 1px solid
 }
 
+.error {
+  color: red;
+  margin: 10px 0;
+}
+
+.success {
+  color: darkgreen
+}
+
 .offline {
   color: red;
 }
