@@ -28,14 +28,14 @@ const csvHeaders = [
 ];
 
 const CSVDownload = (props) => {
-  const btnRef = useRef(null)
-  useEffect(() => btnRef.current?.click(), [btnRef])
-  return (
-    <CSVLink {...props}>
-      <span ref={btnRef} />
-    </CSVLink>
-  )
-}
+	const btnRef = useRef(null);
+	useEffect(() => btnRef.current?.click(), [btnRef]);
+	return (
+		<CSVLink {...props}>
+			<span ref={btnRef} />
+		</CSVLink>
+	);
+};
 
 function App() {
 	const [tableNo, setTableNo] = useState(localStorage.getItem('tableNo') || '');
@@ -78,13 +78,19 @@ function App() {
 
 			if (jsonData.status === 'error') throw jsonData;
 
-      jsonData.color = `"${jsonData.color}"`
-      console.log("**************************")
-      console.log('JSON', { ...jsonData, ...dummyCsvFields })
-      // console.log('dummy',dummyCsvFields )
-      console.log("**************************")
+			jsonData.color = `"${jsonData.color}"`;
+			console.log('**************************');
+			console.log('JSON', { ...jsonData, ...dummyCsvFields });
+			// console.log('dummy',dummyCsvFields )
+			console.log('**************************');
 
 			setDownload({ show: true, data: [{ ...jsonData, ...dummyCsvFields }] });
+			setFormData((state) => {
+				return {
+					...state,
+					scanItem: '',
+				};
+			});
 		} catch (err) {
 			console.log('FAIL!!', err);
 			setErrorMsg(err?.msg || 'Something went wrong!!');
@@ -167,7 +173,7 @@ function App() {
 						<CSVDownload
 							data={download?.data}
 							headers={csvHeaders}
-              enclosingCharacter={``}
+							enclosingCharacter={``}
 							filename={`barcode_lable_damensch_${new Date().getTime()}.csv`}
 							target='_blank'
 						/>
