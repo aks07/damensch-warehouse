@@ -61,7 +61,7 @@ function App() {
 			};
 
 			const response = await fetch(
-				'https://13.235.24.186:3000/process/dummy-success',
+				'http://13.235.24.186:3000/process/dummy-success',
 				{
 					// const response = await fetch('http://13.235.24.186:3000/process/dummy-fail', {
 					// const response = await fetch('http://13.235.24.186:3000/process/recode', {
