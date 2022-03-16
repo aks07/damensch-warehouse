@@ -78,6 +78,12 @@ function App() {
 
 			if (jsonData.status === 'error') throw jsonData;
 
+      jsonData.color = `"${jsonData.color}"`
+      console.log("**************************")
+      console.log('JSON', { ...jsonData, ...dummyCsvFields })
+      // console.log('dummy',dummyCsvFields )
+      console.log("**************************")
+
 			setDownload({ show: true, data: [{ ...jsonData, ...dummyCsvFields }] });
 		} catch (err) {
 			console.log('FAIL!!', err);
@@ -161,6 +167,7 @@ function App() {
 						<CSVDownload
 							data={download?.data}
 							headers={csvHeaders}
+              enclosingCharacter={``}
 							filename={`barcode_lable_damensch_${new Date().getTime()}.csv`}
 							target='_blank'
 						/>
