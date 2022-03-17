@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { Offline, Online } from 'react-detect-offline';
 import { CSVLink } from 'react-csv';
 import './App.css';
+import ErrorPopup from './ErrorPopup';
+
+const alertSound = require('./alert.mp3');
 
 const initForm = {
 	binCode: '',
@@ -42,6 +45,7 @@ function App() {
 	const [formData, setFormData] = useState(initForm);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [download, setDownload] = useState({});
+	const [loading, setLoading] = useState(false);
 
 	const handleTableNumberSet = (e) => {
 		localStorage.setItem('tableNo', e.target.value);
@@ -51,7 +55,9 @@ function App() {
 	const handleSubmit = async (e) => {
 		try {
 			e.preventDefault();
+			setLoading(true);
 			setDownload({});
+			setErrorMsg('');
 
 			const data = {
 				table: tableNo,
@@ -63,7 +69,9 @@ function App() {
 			// const response = await fetch(
 			// 	'http://13.235.24.186:3000/process/dummy-success',
 			// 	{
-			// const response = await fetch('http://13.235.24.186:3000/process/dummy-fail', {
+			// const response = await fetch(
+			// 	'http://13.235.24.186:3000/process/dummy-fail',
+			// 	{
 			const response = await fetch('http://13.235.24.186:3000/process/recode', {
 				method: 'POST',
 				headers: {
@@ -84,16 +92,25 @@ function App() {
 			console.log('**************************');
 
 			setDownload({ show: true, data: [{ ...jsonData, ...dummyCsvFields }] });
-			setFormData((state) => {
-				return {
-					...state,
-					scanItem: '',
-				};
-			});
+			// setFormData((state) => {
+			// 	return {
+			// 		...state,
+			// 		scanItem: '',
+			// 	};
+			// });
 		} catch (err) {
 			console.log('FAIL!!', err);
+			var audio = new Audio(alertSound);
+			audio.play();
 			setErrorMsg(err?.msg || 'Something went wrong!!');
 		}
+		setFormData((state) => {
+			return {
+				...state,
+				scanItem: '',
+			};
+		});
+		setLoading(false);
 	};
 
 	const handleChange = (key, val) => {
@@ -107,6 +124,10 @@ function App() {
 	return (
 		<div className='App'>
 			<Online>
+				{loading && <div class='loader'></div>}
+				{errorMsg && (
+					<ErrorPopup errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+				)}
 				<form onSubmit={handleSubmit}>
 					<label>
 						Table No.
@@ -148,7 +169,7 @@ function App() {
 						/>
 					</label>
 
-					<input type='submit' value='Enter' />
+					<input disabled={loading} type='submit' value='Enter' />
 					{errorMsg && <div className='error'>{errorMsg}</div>}
 				</form>
 				<div className='item-data-container'>
