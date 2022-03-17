@@ -46,6 +46,7 @@ function App() {
 	const [errorMsg, setErrorMsg] = useState('');
 	const [download, setDownload] = useState({});
 	const [loading, setLoading] = useState(false);
+  const [focusBarcodeInput, setFocusBarcodeInput] = useState(false);
 
 	const handleTableNumberSet = (e) => {
 		localStorage.setItem('tableNo', e.target.value);
@@ -111,6 +112,7 @@ function App() {
 			};
 		});
 		setLoading(false);
+    setFocusBarcodeInput(true);
 	};
 
 	const handleChange = (key, val) => {
@@ -163,6 +165,7 @@ function App() {
 							Scan Item
 							<input
 								required
+                autoFocus={focusBarcodeInput}
 								type='text'
 								value={formData.scanItem}
 								onChange={(e) => handleChange('scanItem', e.target.value)}
