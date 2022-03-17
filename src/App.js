@@ -126,7 +126,7 @@ function App() {
 	return (
 		<div className='App'>
 			<Online>
-				{loading && <div class='loader'></div>}
+				{loading && <div className='loader'></div>}
 				{errorMsg ? (
 					<ErrorPopup errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
 				) : (
