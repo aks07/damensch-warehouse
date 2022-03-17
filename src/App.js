@@ -125,53 +125,55 @@ function App() {
 		<div className='App'>
 			<Online>
 				{loading && <div class='loader'></div>}
-				{errorMsg && (
+				{errorMsg ? (
 					<ErrorPopup errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+				) : (
+					<form onSubmit={handleSubmit}>
+						<label>
+							Table No.
+							<input
+								required
+								type='text'
+								value={tableNo}
+								onChange={handleTableNumberSet}
+							/>
+						</label>
+						<div className='main-form-data'>
+							<label>
+								Bin Code
+								<input
+									required
+									type='text'
+									value={formData.binCode}
+									onChange={(e) => handleChange('binCode', e.target.value)}
+								/>
+							</label>
+							<label>
+								SKU Code
+								<input
+									required
+									type='text'
+									value={formData.skuCode}
+									onChange={(e) => handleChange('skuCode', e.target.value)}
+								/>
+							</label>
+						</div>
+
+						<label>
+							Scan Item
+							<input
+								required
+								type='text'
+								value={formData.scanItem}
+								onChange={(e) => handleChange('scanItem', e.target.value)}
+							/>
+						</label>
+
+						<input disabled={loading} type='submit' value='Enter' />
+						{errorMsg && <div className='error'>{errorMsg}</div>}
+					</form>
 				)}
-				<form onSubmit={handleSubmit}>
-					<label>
-						Table No.
-						<input
-							required
-							type='text'
-							value={tableNo}
-							onChange={handleTableNumberSet}
-						/>
-					</label>
-					<div className='main-form-data'>
-						<label>
-							Bin Code
-							<input
-								required
-								type='text'
-								value={formData.binCode}
-								onChange={(e) => handleChange('binCode', e.target.value)}
-							/>
-						</label>
-						<label>
-							SKU Code
-							<input
-								required
-								type='text'
-								value={formData.skuCode}
-								onChange={(e) => handleChange('skuCode', e.target.value)}
-							/>
-						</label>
-					</div>
 
-					<label>
-						Scan Item
-						<input
-							required
-							type='text'
-							value={formData.scanItem}
-							onChange={(e) => handleChange('scanItem', e.target.value)}
-						/>
-					</label>
-
-					<input disabled={loading} type='submit' value='Enter' />
-					{errorMsg && <div className='error'>{errorMsg}</div>}
-				</form>
 				<div className='item-data-container'>
 					<div>Scanned Items: 0</div>
 					<div>Printed Items: 0</div>
