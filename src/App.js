@@ -60,18 +60,17 @@ function App() {
 				barcode: formData?.scanItem,
 			};
 
-			const response = await fetch(
-				'http://13.235.24.186:3000/process/dummy-success',
-				{
-					// const response = await fetch('http://13.235.24.186:3000/process/dummy-fail', {
-					// const response = await fetch('http://13.235.24.186:3000/process/recode', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(data),
-				}
-			);
+			// const response = await fetch(
+			// 	'http://13.235.24.186:3000/process/dummy-success',
+			// 	{
+			// const response = await fetch('http://13.235.24.186:3000/process/dummy-fail', {
+			const response = await fetch('http://13.235.24.186:3000/process/recode', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
 
 			const jsonData = await response.json();
 			console.log('JSON', jsonData);
